@@ -3,15 +3,35 @@ import unittest
 from phone_book_example.phonebook import Phonebook
 
 class PhonebookTest(unittest.TestCase):
-    def test_create_phonebook(self):
-        phonebook = Phonebook()
+
+    def setUp(self):
+        self.phonebook = Phonebook()
 
     def test_lookup_entry_name(self):
-        phonebook = Phonebook()
-        phonebook.add("Bob","123457")
-        self.assertEqual("123457",phonebook.lookup("Bob"))
+        self.phonebook.add("Bob","123457")
+        self.assertEqual("123457",self.phonebook.lookup("Bob"))
 
+    @unittest.skip("WIP")
     def test_missing_entry_raises_KeyError(self, keyError=None):
-        phonebook = Phonebook()
         with self.assertRaises(keyError):
-            phonebook.lookup("missing")
+            self.phonebook.lookup("missing")
+
+
+    def test_empty_phone_book_is_consistent(self):
+        self.assertTrue(self.phonebook.is_consistent())
+
+    def test_phonebook_with_normal_entries_is_consistent(self):
+        self.phonebook.add("Bob", "12345")
+        self.phonebook.add("Mary","012345")
+        self.assertTrue(self.phonebook.is_consistent())
+
+    def test_phonebook_with_duplicate_entries_is_consistent(self):
+        self.phonebook.add("Bob","12345")
+        self.phonebook.add("Mary","12345")
+        self.assertFalse(self.phonebook.is_consistent())
+
+    def test_phonebook_with_numbers_that_prefix_one_another_is_inconsistent(self):
+        self.phonebook.add("Bob","12345")
+        self.phonebook.add("Mary","123")
+        self.assertFalse(self.phonebook.is_consistent())
+
