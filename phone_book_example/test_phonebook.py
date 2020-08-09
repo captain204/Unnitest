@@ -26,7 +26,7 @@ class PhonebookTest(unittest.TestCase):
         self.phonebook.add("Mary","012345")
         self.assertTrue(self.phonebook.is_consistent())
 
-    @unittest.skip("WIP")
+
     def test_phonebook_with_duplicate_entries_is_consistent(self):
         self.phonebook.add("Bob","12345")
         self.phonebook.add("Mary","12345")
